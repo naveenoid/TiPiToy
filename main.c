@@ -6,12 +6,8 @@
 #include "timer.h"
 #include "led.h"
 
-#define SERVO1 PC2
-#define SERVO2 PC3
-
 int main(void){
 
-	DDRC = _BV(SERVO1) | _BV(SERVO2);
 	cli();
 	sei();
 	initializeTimer();
