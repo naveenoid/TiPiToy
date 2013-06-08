@@ -23,6 +23,7 @@ void initializeTimer(void){
     TOCPMSA0 = (1 << TOCC3S1) | (0 << TOCC3S0); // route OC1A to TOCC3
 //	TOCPMSA1 = (RIGHT_PWM_OUT1) | (LEFT_PWM_OUT1); //deciding output pwm pins
 //	TOCPMSA0 = (RIGHT_PWM_OUT0) | (LEFT_PWM_OUT0);
+    TOCPMCOE = (1 << TOCC3OE); // timer/xounter OC pin mux chan. OE
 
 	OCR1A = RIGHT_OCR;
 	OCR1B = LEFT_OCR;
