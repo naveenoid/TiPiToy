@@ -25,10 +25,8 @@ void initializeTimer(void){
 //	TOCPMSA0 = (RIGHT_PWM_OUT0) | (LEFT_PWM_OUT0);
     TOCPMCOE = (1 << TOCC3OE); // timer/counter OC pin mux chan. OE
 
-	OCR1A = RIGHT_OCR;
-	OCR1B = LEFT_OCR;
-
-	ICR1 = TOP_VAL;
+	ICR1 = 20000; // 20000*50 Hz = 1 MHz = CPU-Frequency
+	OCR1A = 1000; // Initial position; corresponds to 1 ms
 
 }
 
