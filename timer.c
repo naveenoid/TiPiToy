@@ -15,7 +15,7 @@ void initializeTimer(void){
 	DDRC |= _BV(SERVO1) | _BV(SERVO2);
  
 	TCCR1A = (1<<COM1A1) | (0<<COM1A0) | //Non-inverting mode
-		 (1<<COM1B1) | (0<<COM1B0);  //i.e. set on compare match, clear at bottom) 
+		 (1<<COM1B1) | (0<<COM1B0) |  //i.e. set on compare match, clear at bottom) 
 		 (1<<WGM11) | (0<<WGM10);     //mode 14, fast PWM
 	TCCR1B = (1<<WGM13) | (1<<WGM12) |
 		 (0<<CS12) | (0<<CS11) | (1<<CS10); //No prescalar
