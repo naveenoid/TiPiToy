@@ -23,8 +23,6 @@ void initializeTimer(void){
 //	TOCPMSA1 = (RIGHT_PWM_OUT1) | (LEFT_PWM_OUT1); //deciding output pwm pins
 //	TOCPMSA0 = (RIGHT_PWM_OUT0) | (LEFT_PWM_OUT0);
 
-	TCNT1 = 0x0000; //timer starts from 0
-	
 	OCR1A = RIGHT_OCR;
 	OCR1B = LEFT_OCR;
 
