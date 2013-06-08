@@ -20,7 +20,7 @@ void initializeTimer(void){
 	TCCR1B = (1<<WGM13) | (1<<WGM12) |
 		 (0<<CS12) | (0<<CS11) | (1<<CS10); //No prescalar
 	TCCR1C = (0<<FOC1A) | (0<<FOC1B); //disable force output compare
-    TOCPMSA0 = (0 << TOCC2S1) | (0 << TOCC2S0); // route OC0A to TOCC2
+    TOCPMSA0 = (1 << TOCC3S1) | (0 << TOCC3S0); // route OC1A to TOCC3
 //	TOCPMSA1 = (RIGHT_PWM_OUT1) | (LEFT_PWM_OUT1); //deciding output pwm pins
 //	TOCPMSA0 = (RIGHT_PWM_OUT0) | (LEFT_PWM_OUT0);
 
