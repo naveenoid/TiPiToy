@@ -24,11 +24,3 @@ int main(void){
 	return 0;
 
 }
-
-ISR(TIMER1_OVF_vect){
-
-        TCNT1 = 0x0000;
-
-
-}
-
