@@ -5,7 +5,7 @@
 
 void led_init()
 {
-    DDRC = PIN;
+    DDRC |= PIN;
 }
 
 
