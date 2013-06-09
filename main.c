@@ -12,10 +12,9 @@ void delay_ms(uint16_t count) {
 } 
 
 int main(void){
-	cli();
-	sei();
 	initializeTimer();
     led_init();
+    sei();
 	//_delay_ms(5000);
 	//stopPWM();
 
