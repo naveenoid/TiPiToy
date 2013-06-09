@@ -5,8 +5,13 @@
 #include "timer.h"
 #include "led.h"
 
-int main(void){
+volatile char status = 85;
 
+void delay_ms(uint16_t count) {
+    while(count--) _delay_ms(1);
+} 
+
+int main(void){
 	cli();
 	sei();
 	initializeTimer();
