@@ -1,6 +1,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/wdt.h> 
 
 #include "timer.h"
 #include "led.h"
@@ -13,6 +14,7 @@ void delay_ms(uint16_t count) {
 } 
 
 int main(void){
+    wdt_enable(WDTO_8S); // see silicon errata
 	initializeTimer();
     led_init();
     i2c_init();
