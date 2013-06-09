@@ -1,7 +1,4 @@
-
 #include <avr/io.h>
-#include <avr/interrupt.h>
-
 #include "timer.h"
 
 #define SERVO1 PC2
