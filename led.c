@@ -3,23 +3,23 @@
 
 #define PIN _BV(PC1)
 
-void led_init()
+void led_init(void)
 {
     DDRC |= PIN;
 }
 
 
-void led_on()
+void led_on(void)
 {
     PORTC |= PIN;
 }
 
-void led_off()
+void led_off(void)
 {
     PORTC &= ~ PIN;
 }
 
-void led_toggle()
+void led_toggle(void)
 {
     PORTC ^= PIN;
 }
