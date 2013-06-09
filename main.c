@@ -22,8 +22,23 @@ int main(void){
 
 	while(1)
     {
-        led_toggle();
-        _delay_ms(500);
+        wdt_reset();
+
+// Test: Dump I2C status register
+        led_on();
+        _delay_us(10);
+        led_off();
+        for(int i=7; i >= 0; i--)
+        {
+           ((status >> i) & 0x01) ? led_on() : led_off();
+           _delay_ms(1);
+        }
+        led_off();
+        delay_ms(100);
+
+// Test: slide PWM duty cycle from 1 ms to 2ms
+//        OCR1A++;
+//        if(OCR1A > 2000) OCR1A = 1000;
     }
 
 	return 0;
