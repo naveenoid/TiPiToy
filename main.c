@@ -17,8 +17,6 @@ int main(void){
     led_init();
     i2c_init();
     sei();
-	//_delay_ms(5000);
-	//stopPWM();
 
 	while(1)
     {
