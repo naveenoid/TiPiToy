@@ -3,7 +3,7 @@
 
 #include "i2c.h"
 #include "led.h"
-#define I2C_ADDRESS 0x03
+#define I2C_ADDRESS 0x03 // 7 bit address of slave, not left-shifted
 #define REG_SIZE 2
 
 char status; // FIXME: For debugging
