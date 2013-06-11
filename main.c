@@ -1,45 +1,59 @@
+//main.c
 
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/wdt.h> 
 
-#include "timer.h"
+#include "adc.h"
 #include "led.h"
 #include "i2c.h"
 
-extern char status;
+//extern char status;
+//extern char buffer[REG_SIZE];
+extern uint8_t samplingComplete;
 
 void delay_ms(uint16_t count) {
     while(count--) _delay_ms(1);
 } 
 
 int main(void){
-    wdt_enable(WDTO_8S); // see silicon errata
-	initializeTimer();
-    led_init();
-    i2c_init();
-    sei();
+
+
+	uint8_t *adcPointer;
+	//uint16_t adc;	
+
+    	wdt_enable(WDTO_8S); // see silicon errata
+	adc_init();
+	disableDigitalInputOnADC();
+    	led_init();
+    	i2c_init();
+	cli();
+    	sei();
 
 	while(1)
-    {
-        wdt_reset();
+    	{
+        	wdt_reset();
+		
+		//led_on();
+		if(samplingComplete){
+			adcPointer = adcPacket();
+		}
+		//buffer[0] = adc;
+		//buffer[1] = (adc>>8);	
+	
+		// Test: Dump I2C status register
+        	led_on();
+        	_delay_us(10);
+        	led_off();
+        	for(int i=7; i >= 0; i--)
+        	{
+           		((*adcPointer >> i) & 0x01) ? led_on() : led_off();
+           		_delay_ms(1);
+        	}
+        	led_off();
+        	delay_ms(100);
 
-// Test: Dump I2C status register
-        led_on();
-        _delay_us(10);
-        led_off();
-        for(int i=7; i >= 0; i--)
-        {
-           ((status >> i) & 0x01) ? led_on() : led_off();
-           _delay_ms(1);
-        }
-        led_off();
-        delay_ms(100);
-
-// Test: slide PWM duty cycle from 1 ms to 2ms
-//        OCR1A++;
-//        if(OCR1A > 2000) OCR1A = 1000;
-    }
+    	}
 
 	return 0;
 

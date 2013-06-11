@@ -6,7 +6,7 @@
 #include <avr/interrupt.h>
 
 //Function Declarations :
-void initializeADC(void);
+void adc_init(void);
 void disableDigitalInputOnADC(void);
 void startSamplingADC(void);
 uint8_t stillConverting(void);
