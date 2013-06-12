@@ -10,7 +10,6 @@
 #include "timer.h"
 
 //extern char status;
-//extern char buffer[REG_SIZE];
 extern uint8_t dataPacketSent;
 
 void delay_ms(uint16_t count) {
@@ -20,8 +19,6 @@ void delay_ms(uint16_t count) {
 int main(void){
 
 	uint8_t *dataPointer;
-	//uint16_t adc;	
-
     	wdt_enable(WDTO_8S); // see silicon errata
 	adc_init();
 	disableDigitalInputOnADC();
@@ -31,17 +28,14 @@ int main(void){
 	cli();
     	sei();
 
-	while(1)
-    	{
+	while(1){
+	
         	wdt_reset();
 		
-		//led_on();
 		if(dataPacketSent){
 			dataPointer = adcPacket();
 		}
-		//buffer[0] = adc;
-		//buffer[1] = (adc>>8);	
-	
+		
 		// Test: Dump I2C status register
         	led_on();
         	_delay_us(10);

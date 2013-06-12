@@ -1,7 +1,6 @@
 //adc.c
 
 #include <avr/io.h>
-#include <avr/interrupt.h>
 
 #include "adc.h"
 #include "i2c.h"
@@ -23,8 +22,8 @@ void adc_init(void){
 		 (0<<ADATE) |			//disable ADC auto trigger
 		 (0<<ADIF) |
 		 (0<<ADIE) |			//need to be decided later
-		 (1<<ADPS2) | (0<<ADPS1) | (0<<ADPS0); //128 prescalar
-	ADCSRB = (1<<ADLAR) |			//right shifted ADC data register
+		 (1<<ADPS2) | (0<<ADPS1) | (0<<ADPS0); //16 prescalar
+	ADCSRB = (1<<ADLAR) |			//left shifted ADC data register
 		 (0<<ADTS2) | (0<<ADTS1) | (0<<ADTS0); //no need unless ADATE is enabled 
 }
 
@@ -65,15 +64,14 @@ uint8_t adcValue(void){
 	startSamplingADC();
 	while(stillConverting());
 	ADCSRA |= (1<<ADIF);			//clearing ADC conversion complete flag
-	return (ADCH);				//according to right shifted ADC data register
+	return (ADCH);				//according to left shifted ADC data register
 
 }
 
-uint8_t *adcPacket(void){		//adcMux decides from which ADC channel sampling is to be done 
+uint8_t *adcPacket(void){		 
 	
 	dataPacketSent = 0;
-	ADMUXA = 0x00;			//check if this will work!!!
-	//ADMUXB = (adcMux>>8);
+	ADMUXA = 0x00;			
 	for(int i =0; i<ADC_DATA_SIZE; i++){
 		
 		buffer[i] = adcValue();

@@ -5,10 +5,8 @@
 
 #include "i2c.h"
 #include "led.h"
-//#define I2C_ADDRESS 0x03 // 7 bit address of slave, not left-shifted
-//#define REG_SIZE 2
 
-char status; // FIXME: For debugging
+//char status; // FIXME: For debugging
 uint8_t write_index, read_index;
 extern uint8_t buffer[REG_SIZE];
 extern uint8_t dataPacketSent;
@@ -31,7 +29,7 @@ void i2c_send_nack(void){
 
 ISR(TWI_SLAVE_vect){
 
-    	status = TWSSRA;
+    	//status = TWSSRA;
     	if( (TWSSRA & _BV(TWDIR)) && (TWSSRA & _BV(TWDIF)) ){ // sending data
 
         	TWSD = buffer[read_index];
