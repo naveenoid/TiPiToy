@@ -7,24 +7,25 @@
 #include "adc.h"
 #include "led.h"
 #include "i2c.h"
+#include "timer.h"
 
 //extern char status;
 //extern char buffer[REG_SIZE];
-extern uint8_t samplingComplete;
+extern uint8_t dataPacketSent;
 
 void delay_ms(uint16_t count) {
-    while(count--) _delay_ms(1);
+	while(count--) _delay_ms(1);
 } 
 
 int main(void){
 
-
-	uint8_t *adcPointer;
+	uint8_t *dataPointer;
 	//uint16_t adc;	
 
     	wdt_enable(WDTO_8S); // see silicon errata
 	adc_init();
 	disableDigitalInputOnADC();
+	timer_init();
     	led_init();
     	i2c_init();
 	cli();
@@ -35,8 +36,8 @@ int main(void){
         	wdt_reset();
 		
 		//led_on();
-		if(samplingComplete){
-			adcPointer = adcPacket();
+		if(dataPacketSent){
+			dataPointer = adcPacket();
 		}
 		//buffer[0] = adc;
 		//buffer[1] = (adc>>8);	
@@ -47,7 +48,7 @@ int main(void){
         	led_off();
         	for(int i=7; i >= 0; i--)
         	{
-           		((*adcPointer >> i) & 0x01) ? led_on() : led_off();
+           		((*dataPointer >> i) & 0x01) ? led_on() : led_off();
            		_delay_ms(1);
         	}
         	led_off();

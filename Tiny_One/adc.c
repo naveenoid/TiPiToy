@@ -1,4 +1,4 @@
-//adc.ci
+//adc.c
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -7,9 +7,14 @@
 #include "i2c.h"
 
 uint8_t dataPacketSent = 1;
-uint8_t buffer[REG_SIZE];
+uint8_t buffer[REG_SIZE];			//REG_SIZE defined in i2c.h
 
 void adc_init(void){
+
+	DDRA |= 0x00;				//PORT initializations for ADC0 to ADC21 (except PC6 and PC7)
+	DDRB |= 0x00;
+	DDRC |= 0X00;
+
 	ADMUXA = 0x00;
 	ADMUXB = (0<<REFS) |			//VCC used as analog reference 
 		 (0<<MUX5); 
@@ -27,10 +32,10 @@ void adc_init(void){
 to disable digital i/o functionality of ADC pins being used  
 */
 
-void disableDigitalInputOnADC(void){ 		//to be decided later
+void disableDigitalInputOnADC(void){ 		//adc channels used from ADC0 to ADC21
 	DIDR0 = 0xff;
 	DIDR1 = 0xff;
-	DIDR2 = 0xff;
+	DIDR2 = 0x3f;
 	DIDR3 = 0x00;
 }
 
@@ -46,9 +51,8 @@ uint8_t stillConverting(void){
 }
 
 /*
-uint16_t adcValue(uint16_t adcMux){		//adcMux decides from which ADC channel sampling is to be done 
-	//ADMUXA = adcMux;			//check if this will work!!!
-	//ADMUXB = (adcMux>>8);
+uint16_t adcValue(void){	 
+	
 	startSamplingADC();
 	while(stillConverting());
 	ADCSRA |= (1<<ADIF);			//clearing ADC conversion complete flag
@@ -56,27 +60,28 @@ uint16_t adcValue(uint16_t adcMux){		//adcMux decides from which ADC channel sam
 }
 */
 
-uint8_t adcValue(void){		//adcMux decides from which ADC channel sampling is to be done 
-	//ADMUXA = adcMux;			//check if this will work!!!
-	//ADMUXB = (adcMux>>8);
+uint8_t adcValue(void){	 
+
 	startSamplingADC();
 	while(stillConverting());
 	ADCSRA |= (1<<ADIF);			//clearing ADC conversion complete flag
-	return (ADCH);		//according to right shifted ADC data register
+	return (ADCH);				//according to right shifted ADC data register
+
 }
 
 uint8_t *adcPacket(void){		//adcMux decides from which ADC channel sampling is to be done 
-	samplingComplete = 0;
+	
+	dataPacketSent = 0;
 	ADMUXA = 0x00;			//check if this will work!!!
 	//ADMUXB = (adcMux>>8);
-	for(int i =0; i<REG_SIZE; i++){
+	for(int i =0; i<ADC_DATA_SIZE; i++){
 		
-		samplingBuffer[i] = adcValue();
+		buffer[i] = adcValue();
 		ADMUXA++;
 		
 	}
-
-	return samplingBuffer;	
+	
+	return buffer;	
 }
 
 
