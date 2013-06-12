@@ -7,7 +7,7 @@
 #include "i2c.h"
 
 uint8_t samplingComplete = 1;
-uint8_t samplingBuffer[24];
+uint8_t samplingBuffer[REG_SIZE];
 
 void adc_init(void){
 	ADMUXA = 0x00;
